@@ -20,7 +20,7 @@
 //test_backlash ();
 
 // Demonstrate how to make meshing bevel gears.
-bevel_gear_pair ();
+//bevel_gear_pair ();
 
 pi=3.1415926535897932384626433832795;
 
