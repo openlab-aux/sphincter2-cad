@@ -46,13 +46,22 @@ module custom_bevel_gear_pair (
 {
     outside_pitch_radius1 = gear1_teeth * outside_circular_pitch / 360;
     outside_pitch_radius2 = gear2_teeth * outside_circular_pitch / 360;
+
     pitch_apex1=outside_pitch_radius2 * sin (axis_angle) +
-        (outside_pitch_radius2 * cos (axis_angle) + outside_pitch_radius1) / tan (axis_angle);
-    cone_distance = sqrt (pow (pitch_apex1, 2) + pow (outside_pitch_radius1, 2));
-    pitch_apex2 = sqrt (pow (cone_distance, 2) - pow (outside_pitch_radius2, 2));
+        (outside_pitch_radius2 * cos (axis_angle) +
+         outside_pitch_radius1) / tan (axis_angle);
+
+    cone_distance = sqrt (pow (pitch_apex1, 2) + 
+            pow (outside_pitch_radius1, 2));
+
+    pitch_apex2 = sqrt (pow (cone_distance, 2) -
+            pow (outside_pitch_radius2, 2));
+
     echo ("cone_distance", cone_distance);
+
     pitch_angle1 = asin (outside_pitch_radius1 / cone_distance);
     pitch_angle2 = asin (outside_pitch_radius2 / cone_distance);
+
     echo ("pitch_angle1, pitch_angle2", pitch_angle1, pitch_angle2);
     echo ("pitch_angle1 + pitch_angle2", pitch_angle1 + pitch_angle2);
 
@@ -103,13 +112,20 @@ module zahnrad(groesse=3) {
                 union(){
                     difference(){
                         union(){
-                            rotate([0,0,180])translate([0,0,-5.3])custom_bevel_gear_pair (gr=groesse);
+                            rotate([0,0,180])translate([0,0,-5.3])
+                                custom_bevel_gear_pair (gr=groesse);
                             if(groesse==0||groesse==1){
-                                translate([0,0,12])cylinder(r=31,h=10,$fn=l_res);
-                                translate([0,0,22])cylinder(r1=31,r2=23,h=7,$fn=l_res);
+                                translate([0,0,12])
+                                    cylinder(r=31,h=10,$fn=l_res);
+                                translate([0,0,22])
+                                    cylinder(r1=31,r2=23,h=7,$fn=l_res);
                             }
                         }
-                        translate([0,0,p_hoehe-0.1])cylinder(r=l_radius+0.15+0.2,h=l_hoehe-p_hoehe+2+0.1,$fn=l_res);
+                        translate([0,0,p_hoehe-0.1])
+                            cylinder(
+                                    r=l_radius+0.15+0.2,
+                                    h=l_hoehe-p_hoehe+2+0.1,
+                                    $fn=l_res);
                     }
                     // Brücken-Stütze
                     if(groesse==0||groesse==1){
@@ -119,8 +135,10 @@ module zahnrad(groesse=3) {
                 }
                 // Schlüssel-Schlitz
                 hull(){
-                    translate([0,17,0])cylinder(r=schluesseldicke/2,h=40,$fn=10);
-                    translate([0,-17,0])cylinder(r=schluesseldicke/2,h=40,$fn=10);
+                    translate([0,17,0])
+                        cylinder(r=schluesseldicke/2,h=40,$fn=10);
+                    translate([0,-17,0])
+                        cylinder(r=schluesseldicke/2,h=40,$fn=10);
                 }
             }
 
@@ -145,7 +163,8 @@ module zahnrad(groesse=3) {
             union(){
                 difference(){
                     union(){
-                        translate([0,0,9.15])custom_bevel_gear_pair (gr=groesse);
+                        translate([0,0,9.15])
+                            custom_bevel_gear_pair(gr=groesse);
                         translate([0,0,-8])cylinder(r=13.5,h=8,$fn=40);
                     }
                     cylinder(r=2.7,h=50,center=true,$fn=20);
@@ -156,16 +175,20 @@ module zahnrad(groesse=3) {
             translate([0,20,-4])rotate([90,0,0])cylinder(r=1.8,h=20);
             #translate([0,8+6.7,-4])rotate([90,0,0])cylinder(r=3.1,h=5);
             hull(){
-                translate([0,7.5,-4])rotate([90,30,0])cylinder(r=3.25,h=3,$fn=6);
-                translate([0,7.5,-8])rotate([90,30,0])cylinder(r=3.25,h=3,$fn=6);
+                translate([0,7.5,-4])rotate([90,30,0])
+                    cylinder(r=3.25,h=3,$fn=6);
+                translate([0,7.5,-8])rotate([90,30,0])
+                    cylinder(r=3.25,h=3,$fn=6);
             }
 
             rotate([0,0,90]){
                 translate([0,20,-4])rotate([90,0,0])cylinder(r=1.8,h=20);
                 #translate([0,8+6.7,-4])rotate([90,0,0])cylinder(r=3.1,h=5);
                 hull(){
-                    translate([0,7.5,-4])rotate([90,30,0])cylinder(r=3.25,h=3,$fn=6);
-                    translate([0,7.5,-8])rotate([90,30,0])cylinder(r=3.25,h=3,$fn=6);
+                    translate([0,7.5,-4])rotate([90,30,0])
+                        cylinder(r=3.25,h=3,$fn=6);
+                    translate([0,7.5,-8])rotate([90,30,0])
+                        cylinder(r=3.25,h=3,$fn=6);
                 }
             }
         }
@@ -194,35 +217,45 @@ module motor(){
         }
 
         hull(){
-            translate([21.1-12,50,29.3])rotate([90,0,0])cylinder(r=0.5,h=10,$fn=20);
-            translate([20.9+12,50,29.3])rotate([90,0,0])cylinder(r=0.5,h=10,$fn=20);
+            translate([21.1-12,50,29.3])rotate([90,0,0])
+                cylinder(r=0.5,h=10,$fn=20);
+            translate([20.9+12,50,29.3])rotate([90,0,0])
+                cylinder(r=0.5,h=10,$fn=20);
             translate([21-7,50,37])rotate([90,0,0])cylinder(r=0.1,h=10,$fn=20);
             translate([21+7,50,37])rotate([90,0,0])cylinder(r=0.1,h=10,$fn=20);
         }
 
         translate([-10,15,20])rotate([45,0,0])cube([60,50,50]);
 
-        union(){                    //NEMA17
+        union(){ //NEMA17
             translate([-0.25,-0.25,-0.25])cube([42.5,42.5,50]);
             translate([21,42,21])rotate([270,0,0])cylinder(r=2.5,h=23,$fn=20);
             translate([21,42,21])rotate([270,0,0])cylinder(r=15,h=5,$fn=50);
 
 
             hull(){
-                translate([21+15.5,42,21+15.5])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
-                translate([21+15.5,42,21+15.5+m_langloch])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
+                translate([21+15.5,42,21+15.5])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
+                translate([21+15.5,42,21+15.5+m_langloch])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
             }
             hull(){
-                translate([21-15.5,42,21+15.5])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
-                translate([21-15.5,42,21+15.5+m_langloch])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
+                translate([21-15.5,42,21+15.5])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
+                translate([21-15.5,42,21+15.5+m_langloch])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
             }
             hull(){
-                translate([21+15.5,42,21-15.5])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
-                translate([21+15.5,42,21-15.5+m_langloch])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
+                translate([21+15.5,42,21-15.5])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
+                translate([21+15.5,42,21-15.5+m_langloch])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
             }
             hull(){
-                translate([21-15.5,42,21-15.5])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
-                translate([21-15.5,42,21-15.5+m_langloch])rotate([270,0,0])cylinder(r=1.7,h=10,$fn=20);
+                translate([21-15.5,42,21-15.5])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
+                translate([21-15.5,42,21-15.5+m_langloch])rotate([270,0,0])
+                    cylinder(r=1.7,h=10,$fn=20);
             }
         }
     }
@@ -232,7 +265,8 @@ module lager(){
     difference(){
         union(){
             cylinder(r=l_radius,h=l_hoehe-1,$fn=l_res); //Lager
-            translate([0,0,l_hoehe-1])cylinder(r1=l_radius,r2=l_radius-1,h=1,$fn=l_res); //Fase
+            translate([0,0,l_hoehe-1])
+                cylinder(r1=l_radius,r2=l_radius-1,h=1,$fn=l_res); //Fase
         }
 
         // Aussparung für Halteplatte
@@ -270,7 +304,6 @@ module halteplatten_loecher() {
 }
 
 
-// neu
 module zylinder(
         lochabstand = 50
         ){
@@ -278,10 +311,12 @@ module zylinder(
     cylinder(r=z_r_kopf,h=z_hoehe);
     hull(){
         cylinder(r=z_r_koerper,h=z_hoehe);
-        translate([0,-(z_laenge-z_r_koerper-z_r_kopf),0])cylinder(r=z_r_koerper,h=z_hoehe);
+        translate([0,-(z_laenge-z_r_koerper-z_r_kopf),0])
+            cylinder(r=z_r_koerper,h=z_hoehe);
     }
 
-    // Die Befestigungslöcher sind symmetrisch zur vertikalen Mitte des Schließzylinders
+    // Die Befestigungslöcher sind symmetrisch zur vertikalen Mitte des 
+    // Schließzylinders
     translate([0,-z_laenge/2+z_r_kopf+z_korr_loecher,0]){
 
         // Oberes Schraubloch
@@ -299,10 +334,14 @@ module zylinder(
 
 module platte(){
     hull(){
-        translate([p_breite/2-p_radius,p_laenge/2-p_radius,0])cylinder(r=p_radius,h=p_hoehe);
-        translate([-(p_breite/2-p_radius),p_laenge/2-p_radius,0])cylinder(r=p_radius,h=p_hoehe);
-        translate([p_breite/2-p_radius,-(p_laenge/2-p_radius),0])cylinder(r=p_radius,h=p_hoehe);
-        translate([-(p_breite/2-p_radius),-(p_laenge/2-p_radius),0])cylinder(r=p_radius,h=p_hoehe);
+        translate([p_breite/2-p_radius,p_laenge/2-p_radius,0])
+            cylinder(r=p_radius,h=p_hoehe);
+        translate([-(p_breite/2-p_radius),p_laenge/2-p_radius,0])
+            cylinder(r=p_radius,h=p_hoehe);
+        translate([p_breite/2-p_radius,-(p_laenge/2-p_radius),0])
+            cylinder(r=p_radius,h=p_hoehe);
+        translate([-(p_breite/2-p_radius),-(p_laenge/2-p_radius),0])
+            cylinder(r=p_radius,h=p_hoehe);
     }
 
 }
