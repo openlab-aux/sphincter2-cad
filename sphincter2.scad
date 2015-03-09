@@ -26,12 +26,12 @@ m_langloch      = 3;          // Länge des Motorlanglochs
 schluesseldicke = 2.5;        // Dicke des Schlüssels
 
 
-generator = 0;          // Welches Teil soll generiert werden?
-                        // 0: Alles
-                        // 1: großes Zahnrad
-                        // 2: kleines Zahnrad
-                        // 3: Grundplatte
-                        // 4: Halteplatte
+generator = 0;  // Welches Teil soll generiert werden?
+// 0: Alles
+// 1: großes Zahnrad
+// 2: kleines Zahnrad
+// 3: Grundplatte
+// 4: Halteplatte
 
 cut = false;    // Schnitt durchs Modell
 
