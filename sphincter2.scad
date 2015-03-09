@@ -33,6 +33,8 @@ generator = 0;          // Welches Teil soll generiert werden?
                         // 3: Grundplatte
                         // 4: Halteplatte
 
+cut = false;    // Schnitt durchs Modell
+
 
 // wie bevel_gear_pair() aus der lib mit eigenen Anpassungen
 module custom_bevel_gear_pair (
@@ -331,5 +333,5 @@ difference(){
         }
         zahnrad(groesse=generator);
     }
-    cube([100,100,100]);
+    if(cut) cube([100,100,100]);
 }
