@@ -47,6 +47,62 @@ generator = 0;          //Welches Teil soll generiert werden?
                         // 4: Halteplatte
 
 
+module custom_bevel_gear_pair (
+	gear1_teeth = 59,
+	gear2_teeth = 17,
+	axis_angle = 90,
+	outside_circular_pitch=250,
+        gr = 0) //gr=0 -> both; gr=1 -> big gear; gr=2 -> small gear
+{
+	outside_pitch_radius1 = gear1_teeth * outside_circular_pitch / 360;
+	outside_pitch_radius2 = gear2_teeth * outside_circular_pitch / 360;
+	pitch_apex1=outside_pitch_radius2 * sin (axis_angle) + 
+		(outside_pitch_radius2 * cos (axis_angle) + outside_pitch_radius1) / tan (axis_angle);
+	cone_distance = sqrt (pow (pitch_apex1, 2) + pow (outside_pitch_radius1, 2));
+	pitch_apex2 = sqrt (pow (cone_distance, 2) - pow (outside_pitch_radius2, 2));
+	echo ("cone_distance", cone_distance);
+	pitch_angle1 = asin (outside_pitch_radius1 / cone_distance);
+	pitch_angle2 = asin (outside_pitch_radius2 / cone_distance);
+	echo ("pitch_angle1, pitch_angle2", pitch_angle1, pitch_angle2);
+	echo ("pitch_angle1 + pitch_angle2", pitch_angle1 + pitch_angle2);
+
+	rotate([0,0,90])
+	translate ([0,0,pitch_apex1+20])
+	{
+    	if(gr==0||gr==1){
+		translate([0,0,-pitch_apex1])
+		bevel_gear (
+			face_width=12,
+			gear_thickness = 8.2,
+			number_of_teeth=gear1_teeth,
+			cone_distance=cone_distance,
+			pressure_angle=30,
+			outside_circular_pitch=outside_circular_pitch);
+                }
+                if(gr==0){
+		rotate([0,-(pitch_angle1+pitch_angle2),0])
+		translate([0,0,-pitch_apex2])
+		bevel_gear (
+			face_width=10,
+			gear_thickness = 2,
+			number_of_teeth=gear2_teeth,
+			cone_distance=cone_distance,
+			pressure_angle=30,
+			outside_circular_pitch=outside_circular_pitch);
+                }
+                if(gr==2){
+		translate([0,0,-pitch_apex2])
+		bevel_gear (
+			face_width=10,
+			gear_thickness = 2,
+			number_of_teeth=gear2_teeth,
+			cone_distance=cone_distance,
+			pressure_angle=30,
+			outside_circular_pitch=outside_circular_pitch);
+                }
+	}
+}
+
 
 
 module zahnrad(groesse=3) {
@@ -57,7 +113,7 @@ module zahnrad(groesse=3) {
             union(){
                 difference(){
                     union(){
-                        rotate([0,0,180])translate([0,0,-5.3])bevel_gear_pair (gr=groesse);  
+                        rotate([0,0,180])translate([0,0,-5.3])custom_bevel_gear_pair (gr=groesse);  
                         if(groesse==0||groesse==1){
                             translate([0,0,12])cylinder(r=31,h=10,$fn=l_res);
                             translate([0,0,22])cylinder(r1=31,r2=23,h=7,$fn=l_res);
@@ -99,7 +155,7 @@ module zahnrad(groesse=3) {
             union(){
                 difference(){
                     union(){
-                        translate([0,0,9.15])bevel_gear_pair (gr=groesse);
+                        translate([0,0,9.15])custom_bevel_gear_pair (gr=groesse);
                         translate([0,0,-8])cylinder(r=13.5,h=8,$fn=40);
                     }
                     cylinder(r=2.7,h=50,center=true,$fn=20);
