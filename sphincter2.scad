@@ -129,17 +129,26 @@ module zahnrad(groesse=3) {
                     }
                     // Brücken-Stütze
                     if(groesse==0||groesse==1){
-                        translate([0,0,15.3])cube([4,38,20],center=true);
+                        //translate([0,0,15.3])cube([4,38,20],center=true);
+                        hull() {
+                            translate([0,16.3,5.3+0.3])cylinder(r=2.4,h=20);
+                            translate([0,-16.3,5.3+0.3])cylinder(r=2.4,h=20);
+                        }
                         translate([0,0,5.3])cube([20,40,0.6],center=true);
                     }
                 }
                 // Schlüssel-Schlitz
                 hull(){
-                    translate([0,17,0])
+                    translate([0,16.3,0])
                         cylinder(r=schluesseldicke/2,h=40,$fn=10);
-                    translate([0,-17,0])
+                    translate([0,-16.3,0])
                         cylinder(r=schluesseldicke/2,h=40,$fn=10);
                 }
+                // Löcher für Schraubendreher
+                translate([0,16.3,0])
+                    cylinder(r=2,h=40,$fn=10);
+                translate([0,-16.3,0])
+                    cylinder(r=2,h=40,$fn=10);
             }
 
             // Zahn-cut
