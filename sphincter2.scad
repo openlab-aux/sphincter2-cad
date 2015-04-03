@@ -383,6 +383,8 @@ difference(){
                     halteplatten_loecher();
                 }
         }
+        // Rotate to see if screw holes fit
+        //rotate([0,0,90-42.51])
         zahnrad(groesse=generator);
     }
     if(cut) cube([100,100,100]);
