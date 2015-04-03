@@ -132,7 +132,7 @@ module zahnrad(groesse=3) {
 
                             // innere Nut für Halteplatte
                             translate([0,0,16.2-0])
-                                cylinder(r1=29+0.3,r2=27,h=h_nut,$fn=l_res);
+                                cylinder(r1=29+0.3,r2=27.5,h=h_nut,$fn=l_res);
                         }
                     }
 
