@@ -121,12 +121,21 @@ module zahnrad(groesse=3) {
                                     cylinder(r1=31,r2=23,h=7,$fn=l_res);
                             }
                         }
-                        translate([0,0,p_hoehe-0.1])
-                            cylinder(
-                                    r=l_radius+0.15+0.2,
-                                    h=l_hoehe-p_hoehe+2+0.1,
-                                    $fn=l_res);
+
+                        union(){
+                            h_nut = 6 - 0.3;
+                            translate([0,0,p_hoehe-0.1])
+                                cylinder(
+                                        r=l_radius+0.15+0.2,
+                                        h=l_hoehe-p_hoehe-h_nut+2+0.1,
+                                        $fn=l_res);
+
+                            // innere Nut für Halteplatte
+                            translate([0,0,16.2-0])
+                                cylinder(r1=29+0.3,r2=27,h=h_nut,$fn=l_res);
+                        }
                     }
+
                     // Brücken-Stütze
                     if(groesse==0||groesse==1){
                         //translate([0,0,15.3])cube([4,38,20],center=true);
@@ -157,11 +166,6 @@ module zahnrad(groesse=3) {
                 cylinder(r=41,h=20,$fn=l_res);
             }
 
-            // innere Nut für Halteplatte
-            difference(){
-                translate([0,0,16.1])cylinder(r1=29+0.2,r2=27,h=6,$fn=l_res);
-                translate([0,0,16.1])cylinder(r=20,h=6);
-            }
         }
 
     }
